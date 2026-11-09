@@ -32,7 +32,7 @@ jobs:
     runs-on: [self-hosted, Windows]
     name: Build Nightly
     needs: check_recent_commit
-    if: needs.check_recent_commit.outputs.should_run == 'true'
+    if: needs.check_recent_commit.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
     outputs:
       full_sha: ${{ steps.var.outputs.full_sha }}
       short_sha: ${{ steps.var.outputs.short_sha }}
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Recreate Release
     needs: build_nightly
-    if: needs.check_recent_commit.outputs.should_run == 'true'
+    if: needs.check_recent_commit.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v3
 
